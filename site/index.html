@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HomeScraper</title>
+  <meta name="description" content="Source-first property research dashboard for HomeScraper.">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">HomeScraper</p>
+      <h1>Property research dashboard</h1>
+      <p class="subtle">Source-first acquisition, provenance, and deal analysis.</p>
+    </div>
+    <div class="status" id="status">Dashboard loading</div>
+  </header>
+
+  <main>
+    <section class="notice">
+      <strong>Data policy:</strong> values shown by this application must come from configured public sources or be explicitly marked as unavailable. The dashboard does not invent property facts, valuations, distress signals, or seller circumstances.
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>County</h2>
+        <div class="metric" id="county">Lake County, Illinois</div>
+        <p class="subtle">Initial county adapter</p>
+      </article>
+      <article class="card">
+        <h2>Source</h2>
+        <div class="metric" id="source">Lake County GIS</div>
+        <p class="subtle">Public parcel source</p>
+      </article>
+      <article class="card">
+        <h2>Records</h2>
+        <div class="metric" id="record-count">Not loaded</div>
+        <p class="subtle">Published dashboard data</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="section-heading">
+        <div>
+          <h2>Properties</h2>
+          <p class="subtle">Only records present in the published data feed appear here.</p>
+        </div>
+        <input id="search" type="search" placeholder="Search address, PIN, or owner" aria-label="Search properties">
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Address</th>
+              <th>PIN</th>
+              <th>Owner</th>
+              <th>Assessed value</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody id="properties">
+            <tr><td colspan="5" class="empty">No published property feed is available yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>HomeScraper</span>
+    <span>Public-source data only</span>
+  </footer>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
