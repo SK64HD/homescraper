@@ -55,6 +55,27 @@ CREATE TABLE source_records (
   UNIQUE(source_id, external_record_id)
 );
 
+CREATE TABLE property_identity_keys (
+  property_id BIGINT PRIMARY KEY REFERENCES properties(id),
+  parcel_key TEXT,
+  address_key TEXT NOT NULL,
+  owner_key TEXT,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE entity_match_reviews (
+  id BIGSERIAL PRIMARY KEY,
+  left_property_id BIGINT NOT NULL REFERENCES properties(id),
+  right_property_id BIGINT NOT NULL REFERENCES properties(id),
+  score NUMERIC(6,5) NOT NULL CHECK (score >= 0 AND score <= 1),
+  reasons JSONB NOT NULL DEFAULT '[]',
+  state TEXT NOT NULL CHECK (state IN ('pending','accepted','rejected')),
+  reviewer TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  decided_at TIMESTAMPTZ,
+  UNIQUE(left_property_id, right_property_id)
+);
+
 CREATE TABLE distress_events (
   id BIGSERIAL PRIMARY KEY,
   property_id BIGINT NOT NULL REFERENCES properties(id),
@@ -124,3 +145,6 @@ CREATE INDEX properties_county_idx ON properties(county);
 CREATE INDEX properties_parcel_idx ON properties(parcel_id);
 CREATE INDEX source_records_property_idx ON source_records(property_id);
 CREATE INDEX distress_events_property_idx ON distress_events(property_id);
+CREATE INDEX property_identity_parcel_idx ON property_identity_keys(parcel_key);
+CREATE INDEX property_identity_address_idx ON property_identity_keys(address_key);
+CREATE INDEX entity_match_reviews_state_idx ON entity_match_reviews(state);
